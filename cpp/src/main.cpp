@@ -17,6 +17,7 @@ int main()
     complex_vector original_samples { sin_wave.get_samples() };
     complex_vector reconstructed_samples { get_fourier_series(N, sin_wave) };
     
-    write_to_file(reconstructed_samples);
+    write_to_file("reconstructed_samples.bin", 
+                  reconstructed_samples);
     return 0;
 }
