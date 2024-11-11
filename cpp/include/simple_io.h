@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void write_to_file(const complex_vector& f);
+void write_to_file(const complex_vector& v);
 
 #endif
