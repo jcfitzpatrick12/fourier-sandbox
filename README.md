@@ -1,3 +1,3 @@
-# Fourier series (experiment)
+# Fourier sandbox
 
-A toy repository for numerically computing Fourier series. 
+A toy repository for numerically computing Fourier Things.
