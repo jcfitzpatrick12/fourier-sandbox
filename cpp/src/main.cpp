@@ -20,9 +20,9 @@ int main()
 	// Fourier coefficient parameters
 	const int N { 20 }; 
 
-	std::unique_ptr<BasePeriodicSignal> signal {  make_periodic_signal(signal_type,
-								           period,
-								           num_samples) };		
+	std::unique_ptr<const BasePeriodicSignal> signal {  make_periodic_signal(signal_type,
+								                 period,
+								                 num_samples) };		
 	
 	// print_signal(signal);
 	complex_vector reconstructed_signal { get_fourier_series(N, *signal)  };

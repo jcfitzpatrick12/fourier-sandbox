@@ -5,7 +5,7 @@
 #include "sin_wave.h"
 #include "rect.h"
 
-const std::unique_ptr<BasePeriodicSignal> make_periodic_signal(const SignalType signal_type, 
+std::unique_ptr<const BasePeriodicSignal> make_periodic_signal(const SignalType signal_type, 
 					      		       const double period,
 					                       const int num_samples)
 {
