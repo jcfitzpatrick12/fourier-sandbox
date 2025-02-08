@@ -13,6 +13,7 @@ BasePeriodicSignal::BasePeriodicSignal(const double period,
                      _samples( complex_vector(_num_samples, 0.0) )
                      {}
 
+
 BasePeriodicSignal::~BasePeriodicSignal() {}
 
 
@@ -39,10 +40,12 @@ const complex_vector& BasePeriodicSignal::get_samples() const
 }
 
 
-
+// Compute the physical time associated with a sample at a particular index.
+// The times are centred around zero, meaning that if the number of samples
+// per period is odd, the midpoint sample will be at t=0.
 const double BasePeriodicSignal::get_time(const int sample_index) const
 {
-    return _period * (static_cast<double>(sample_index) / _num_samples);
+    return _period * (static_cast<double>(sample_index) / _num_samples) - (_period / 2.0);
 }
 
 

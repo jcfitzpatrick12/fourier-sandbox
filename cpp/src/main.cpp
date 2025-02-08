@@ -1,23 +1,37 @@
-// Write the fourier series representation to file and plot using Python.
-// Compare the fourier series representation to the original on the same graph.
-
+// Tinkering around.
+#include <cmath>
 #include <iostream>
+#include <memory>
 
-#include "sin_wave.h"
+#include "signal_factory.h"
+#include "base_periodic_signal.h"
 #include "fourier.h"
-#include "simple_io.h"
+
+// Adapt the `fourier.h` code to work with the smart pointer instead.
+// Write a function which numerically computes the fourier series.
 
 int main()
 {
-    double period { 1.0 }; // Period of the signal [s]
-    int num_samples { 100 }; // Number of samples to take over the period
-    int N { 10 }; // Coefficients are evaluated for n in [-N, N] inclusive 
+	// Defining the periodic signal
+	const double period { 3 };
+	const int num_samples { 30 };
+	const SignalType signal_type { SignalType::rect };
+	
+	// Fourier coefficient parameters
+	const int N { 20 }; 
 
-    SinWave sin_wave(period, num_samples);
-    complex_vector original_samples { sin_wave.get_samples() };
-    complex_vector reconstructed_samples { get_fourier_series(N, sin_wave) };
-    
-    write_to_file("reconstructed_samples.bin", 
-                  reconstructed_samples);
-    return 0;
+	std::unique_ptr<BasePeriodicSignal> signal {  make_periodic_signal(signal_type,
+								           period,
+								           num_samples) };		
+	
+	// print_signal(signal);
+	complex_vector reconstructed_signal { get_fourier_series(N, *signal)  };
+
+	for (complex_double z : reconstructed_signal ) 
+	{
+		std::cout << z << std::endl;
+	}	
+		
+	return 0;
 }
+
