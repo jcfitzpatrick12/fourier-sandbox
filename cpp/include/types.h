@@ -5,7 +5,6 @@
 #include <complex>
 #include <filesystem>
 
-
 namespace fs = std::filesystem;
 
 typedef std::vector<double> real_vector;

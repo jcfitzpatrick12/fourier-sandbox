@@ -1,16 +1,16 @@
 #ifndef RECT_H
 #define RECT_H
 
-#include "base_periodic_signal.h"
 #include "types.h"
+#include "base_signal.h"
 
-class Rect : public BasePeriodicSignal
+class Rect : public BaseSignal
 {
 public:
-	Rect(const double period,
+	Rect(const double duration,
 	     const int num_samples);
 	~Rect();
-	const complex_vector compute_samples() const override;
+	void compute_samples() override;
 };
 
 #endif

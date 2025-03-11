@@ -8,7 +8,6 @@ RUN apt-get update && \
     g++ \
     make \
     vim \
-    tmux \
     git
 
 WORKDIR /app

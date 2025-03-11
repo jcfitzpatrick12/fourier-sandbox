@@ -1,16 +1,16 @@
 #ifndef SIN_WAVE_H
 #define SIN_WAVE_H
 
-#include "base_periodic_signal.h"
 #include "types.h"
+#include "base_signal.h"
 
-class SinWave : public BasePeriodicSignal
+class SinWave : public BaseSignal
 {
 public:
-    SinWave(const double period,
+    SinWave(const double duration,
             const int num_samples);
     ~SinWave();
-    const complex_vector compute_samples() const override;
+    void compute_samples()  override;
 };
 
 #endif

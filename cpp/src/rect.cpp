@@ -1,24 +1,19 @@
+#include "rect.h"
+#include "types.h"
+#include "base_signal.h"
+
 #include <iostream>
 #include <cmath>
 
-#include "rect.h"
-#include "types.h"
-#include "base_periodic_signal.h"
-
-Rect::Rect(const double period,
+Rect::Rect(const double duration,
 	   const int num_samples)
-	: BasePeriodicSignal(period, num_samples)
-{
-	initialise_samples();
-}
+     : BaseSignal(duration, num_samples)
+{ compute_samples(); }
 
 Rect::~Rect() {}
 
-const complex_vector Rect::compute_samples() const 
+void Rect::compute_samples()
 {
-	// Initialise a vector to hold the complex samples
-	complex_vector signal(_num_samples, complex_double(0,0));
-
 	// Extract the physical time associated with each sample
 	real_vector times { this->get_times()  };
 
@@ -27,8 +22,7 @@ const complex_vector Rect::compute_samples() const
 	{
 		if ( fabs( times[i] ) <= 0.5 )
 		{
-			signal[i] = {1, 0};
+			_samples[i] = {1, 0};
 		}	
 	}
-	return signal;
 }
