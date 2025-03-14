@@ -1,16 +1,17 @@
 #ifndef RECT_H
 #define RECT_H
 
-#include "types.h"
 #include "base_signal.h"
+#include "types.h"
 
 class Rect : public BaseSignal
 {
 public:
-	Rect(const double duration,
-	     const int num_samples);
-	~Rect();
-	void compute_samples() override;
+    Rect(double width);
+    ~Rect();
+    complex_double compute_sample(double point) const override; 
+private:
+    double width_;
 };
 
 #endif
