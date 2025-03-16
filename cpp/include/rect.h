@@ -14,4 +14,5 @@ private:
     double width_;
 };
 
+
 #endif

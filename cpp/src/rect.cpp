@@ -1,22 +1,20 @@
 #include "rect.h"
-#include "base_signal.h"
-#include "types.h"
 
 #include <cmath>
 
-Rect::Rect(double width) 
-     : BaseSignal(), 
+Rect::Rect(double width)
+     : BaseSignal(),
        width_(width)
 {}
 
-Rect::~Rect() 
+Rect::~Rect()
 {}
 
 complex_double Rect::compute_sample(double point) const
 {
-    if ( fabs(point) <= width_/2) 
+    if ( fabs(point) < width_/2 )
     {
-        return 1;
+        return complex_double(1,0);
     }
-    return 0;
+    return complex_double(0,0);
 }
