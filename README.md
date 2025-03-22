@@ -1,3 +1,3 @@
-# fourier_sandbox
+# fourier-sandbox
 
 A toy repository for numerically computing Fourier Things.
