@@ -23,8 +23,8 @@ public:
     // Get the sample rate of the signal.
     double get_sample_rate() const;
     
-    // Get the physical time associated with the index of a sample.
-    double get_time(const int sample_index) const;
+    // Get the point in the domain associated with the index of a sample.
+    double get_point(const int sample_index) const;
 
 private:
     // Compute the sample rate of the signal.
@@ -35,7 +35,7 @@ private:
     const real_vector points_;
     const complex_vector samples_;
     const int num_samples_;
-    const int sample_rate_;
+    const double sample_rate_;
 }; 
 
 #endif

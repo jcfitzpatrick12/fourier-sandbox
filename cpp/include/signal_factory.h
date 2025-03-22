@@ -2,6 +2,7 @@
 #define SIGNAL_FACTORY_H 
 
 #include "base_signal.h"
+#include "sampled_signal.h"
 #include "types.h"
 #include "rect.h"
 
@@ -25,5 +26,10 @@ std::unique_ptr<const BaseSignal> make_signal(SignalType signal_type, Args&&... 
 	    throw std::invalid_argument("Unrecognised signal type.");
     }
 }
+
+
+// Sample a signal.
+std::unique_ptr<const SampledSignal> sample_signal(const real_vector& points, std::unique_ptr<const BaseSignal> signal);
+
 
 #endif
