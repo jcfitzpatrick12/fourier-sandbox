@@ -29,7 +29,7 @@ std::unique_ptr<const BaseSignal> make_signal(SignalType signal_type, Args&&... 
 
 
 // Sample a signal.
-std::unique_ptr<const SampledSignal> sample_signal(const real_vector& points, std::unique_ptr<const BaseSignal> signal);
+SampledSignal sample_signal(const real_vector& points, const BaseSignal& signal);
 
 
 #endif
