@@ -22,9 +22,18 @@ public:
 
     // Get the sample rate of the signal.
     double get_sample_rate() const;
-    
-    // Get the point in the domain associated with the index of a sample.
+	
+    // Get the sample interval - the reciprocal of the sample rate.
+    double get_sample_interval() const;
+
+    // Get the point in the domain according to the sample index.
     double get_point(const int sample_index) const;
+    
+    // Get the sample value according to the sample index.
+    complex_double get_sample(const int sample_index) const;
+
+    // Get the size of the sampled interval in the domain
+    double get_range() const;
 
 private:
     // Compute the sample rate of the signal.

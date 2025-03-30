@@ -33,7 +33,7 @@ int main()
     // Choose points in the domain to sample at.
     double min_point { -2 };
     double max_point {  2 };
-    int num_points { 10 };
+    int num_points { 100 };
     real_vector points { get_points(min_point, max_point, num_points) };
 
     // Make a signal to sample.
@@ -46,5 +46,16 @@ int main()
     // Compute the fourier coefficients.
     int N { 10 };
     SampledSignal coeffs { get_fourier_coefficients(N, sampled_signal) }; 
+   
+    double T { sampled_signal.get_range() }; 
+    for (int k {0}; k < coeffs.get_num_samples(); k++)
+    {
+        using namespace std;
+	cout << T * coeffs.get_sample(k)
+	     << " at "
+	     << coeffs.get_point(k)
+	     << " [Hz]"
+	     << "\n";
+    }
     return 0;
 }
