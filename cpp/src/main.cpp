@@ -1,7 +1,5 @@
-// 	-> Now, fourier series and fourier transform (and their respective inverses) can all return
-// sampled signal instances.  
-// 	-> except, that "where the signal values are evaluated at" is interpreted differently based on the context.
-// -> Refactor the fourier series code to accommodate these changes.  i
+// -> Refactor the fourier series code to accommodate these changes. 
+// -> Write a general "transform" 
 // -> Write the code to compute the fourier transform... 
 // -> Write a function which computes the F.T. via the triangle trick.  
 // -> Compare F.T. to F.S. and plot, to make sure the code is working...
@@ -33,7 +31,7 @@ int main()
     // Choose points in the domain to sample at.
     double min_point { -2 };
     double max_point {  2 };
-    int num_points { 100 };
+    int num_points { 40 };
     real_vector points { get_points(min_point, max_point, num_points) };
 
     // Make a signal to sample.
@@ -43,18 +41,17 @@ int main()
     // Sample the signal.
     SampledSignal sampled_signal { sample_signal(points, *signal) };   
 
-    // Compute the fourier coefficients.
-    int N { 10 };
-    SampledSignal coeffs { get_fourier_coefficients(N, sampled_signal) }; 
+    // Compute the fourier series representation of the signal.
+    int N { 15 };
+    SampledSignal fourier_series { get_fourier_series(N, sampled_signal) }; 
    
-    double T { sampled_signal.get_range() }; 
-    for (int k {0}; k < coeffs.get_num_samples(); k++)
+    for (int k {0}; k < fourier_series.get_num_samples(); k++)
     {
         using namespace std;
-	cout << T * coeffs.get_sample(k)
+	cout << fourier_series.get_sample(k)
 	     << " at "
-	     << coeffs.get_point(k)
-	     << " [Hz]"
+	     << fourier_series.get_point(k)
+	     << " [s]"
 	     << "\n";
     }
     return 0;

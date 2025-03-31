@@ -6,7 +6,7 @@
 
 complex_double integrate(const SampledSignal& integrand)
 {
-    complex_double running_sum { complex_double(0,0) }; 
+    complex_double running_sum(0,0); 
     for (int k {1}; k < integrand.get_num_samples(); k++)
     {
         running_sum += integrand.get_sample(k);
@@ -75,3 +75,36 @@ SampledSignal get_fourier_coefficients(const int N,
     
     return SampledSignal(frequencies, coefficients);
 }
+
+
+SampledSignal get_fourier_series(const int N,
+                                const SampledSignal& sampled_signal)
+{
+    SampledSignal coeffs { get_fourier_coefficients(N, sampled_signal) };
+    
+    // Initialise a vector to hold the partial sums.
+    complex_vector partial_sums { complex_vector(sampled_signal.get_num_samples(), complex_double(0, 0)) };
+   
+    // Compute the input signals period. 
+    double T { sampled_signal.get_range() };
+    complex_double i(0, 1);
+
+    // Compute the partial sum for each point in the domain.
+    for (int m {0}; m < sampled_signal.get_num_samples(); m++)
+    {
+	// Deterime the time we are evaluating the partial sum at.    
+	double t { sampled_signal.get_point(m) };             
+
+        // Compute the partial sum. 
+	complex_double running_sum(0,0);
+	for (int k {0}; k < coeffs.get_num_samples(); k++)
+        {
+	    complex_double exp_arg { 2 * M_PI * i * coeffs.get_point(k) * t };
+            running_sum += coeffs.get_sample(k) * std::exp(exp_arg); 
+	}
+        partial_sums[m] = running_sum; 
+    }
+    return SampledSignal(sampled_signal.get_points(), partial_sums);
+}
+
+
