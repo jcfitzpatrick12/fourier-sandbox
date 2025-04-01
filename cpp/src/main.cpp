@@ -29,8 +29,8 @@ real_vector get_points(double min_point,
 int main()
 {
     // Choose points in the domain to sample at.
-    double min_point { -2 };
-    double max_point {  2 };
+    double min_point { -1 };
+    double max_point {  1 };
     int num_points { 40 };
     real_vector points { get_points(min_point, max_point, num_points) };
 
@@ -43,7 +43,7 @@ int main()
 
     // Compute the fourier series representation of the signal.
     int N { 15 };
-    SampledSignal fourier_series { get_fourier_series(N, sampled_signal) }; 
+    SampledSignal fourier_series { get_fourier_series(sampled_signal, N) }; 
    
     for (int k {0}; k < fourier_series.get_num_samples(); k++)
     {

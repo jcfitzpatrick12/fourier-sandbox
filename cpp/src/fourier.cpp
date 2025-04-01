@@ -44,8 +44,8 @@ complex_double get_fourier_coefficient(const int n,
 }
 
 
-SampledSignal get_fourier_coefficients(const int N,
- 				       const SampledSignal& sampled_signal)
+SampledSignal get_fourier_coefficients(const SampledSignal& sampled_signal,
+                                       const int N)
 {
     // `+1` to account for the 0th term.
     int num_coefficients { 2*N + 1}; 
@@ -61,7 +61,6 @@ SampledSignal get_fourier_coefficients(const int N,
     // corresponding physical frequencies. 
     int n { -N };
     
-    // Compute the period of the sampled signal (assuming it is periodic outside the sampled interval). 
     double T { sampled_signal.get_range() };
     
     // Compute the coefficient, and then assign it a physical frequency
@@ -77,22 +76,21 @@ SampledSignal get_fourier_coefficients(const int N,
 }
 
 
-SampledSignal get_fourier_series(const int N,
-                                const SampledSignal& sampled_signal)
+SampledSignal get_fourier_series(const SampledSignal& sampled_signal,
+                                 const int N)
 {
-    SampledSignal coeffs { get_fourier_coefficients(N, sampled_signal) };
+    SampledSignal coeffs { get_fourier_coefficients(sampled_signal, N) };
     
     // Initialise a vector to hold the partial sums.
     complex_vector partial_sums { complex_vector(sampled_signal.get_num_samples(), complex_double(0, 0)) };
    
-    // Compute the input signals period. 
     double T { sampled_signal.get_range() };
     complex_double i(0, 1);
 
     // Compute the partial sum for each point in the domain.
-    for (int m {0}; m < sampled_signal.get_num_samples(); m++)
+    for (int m {0}; m < partial_sums.size(); m++)
     {
-	// Deterime the time we are evaluating the partial sum at.    
+	// Evaluate the partial sum at the same times as the input signal.
 	double t { sampled_signal.get_point(m) };             
 
         // Compute the partial sum. 
@@ -104,6 +102,7 @@ SampledSignal get_fourier_series(const int N,
 	}
         partial_sums[m] = running_sum; 
     }
+    // The partial sum has been evaluated at the same times as the input signal. 
     return SampledSignal(sampled_signal.get_points(), partial_sums);
 }
 
