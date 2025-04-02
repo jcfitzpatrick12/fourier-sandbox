@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-
+// Approximate the integral using a right hand Riemann sum
 complex_double integrate(const SampledSignal& integrand)
 {
     complex_double running_sum(0,0); 
@@ -19,7 +19,7 @@ SampledSignal get_fourier_series_integrand(const int n,
 		                           const SampledSignal& sampled_signal)
 {
     // Initialise an array to hold the integrand sample values
-    complex_vector integrand { complex_vector(sampled_signal.get_num_samples(), complex_double(0,0)) };
+    complex_vector integrand(sampled_signal.get_num_samples(), complex_double(0,0));
     
     complex_double i(0,1);
     double T { sampled_signal.get_range() };
@@ -51,10 +51,10 @@ SampledSignal get_fourier_coefficients(const SampledSignal& sampled_signal,
     int num_coefficients { 2*N + 1}; 
     
     // Initialise a vector to hold the coefficients.
-    complex_vector coefficients { complex_vector(num_coefficients, complex_double(0,0)) };
+    complex_vector coefficients(num_coefficients, complex_double(0,0));
    
     // Initialise a vector to hold the physical frequencies associated with each coefficient. 
-    real_vector frequencies { real_vector(num_coefficients, 0) };
+    real_vector frequencies(num_coefficients, 0);
 
     // Keep track of the coefficient index in [-N, N]. That is, the k'th coefficient we
     // evaluate is c_{-N + k}, so that they are naturally ordered in terms of their
@@ -82,7 +82,7 @@ SampledSignal get_fourier_series(const SampledSignal& sampled_signal,
     SampledSignal coeffs { get_fourier_coefficients(sampled_signal, N) };
     
     // Initialise a vector to hold the partial sums.
-    complex_vector partial_sums { complex_vector(sampled_signal.get_num_samples(), complex_double(0, 0)) };
+    complex_vector partial_sums(sampled_signal.get_num_samples(), complex_double(0, 0));
    
     double T { sampled_signal.get_range() };
     complex_double i(0, 1);
@@ -104,6 +104,48 @@ SampledSignal get_fourier_series(const SampledSignal& sampled_signal,
     }
     // The partial sum has been evaluated at the same times as the input signal. 
     return SampledSignal(sampled_signal.get_points(), partial_sums);
+}
+
+
+SampledSignal get_fourier_transform_integrand(const SampledSignal& sampled_signal,
+                                              const double frequency)
+{
+    // Initialise a vector to hold the integrand, which will be evaluated at the same sampled points as the input signal.
+    complex_vector integrand(sampled_signal.get_num_samples(), complex_double(0,0));
+    
+    // Initialise the imaginary unit. 
+    complex_double i(0,1);
+
+    for (int k {0}; k < integrand.size(); k++)
+    {
+        complex_double exp_arg { -2 * M_PI * i * frequency * sampled_signal.get_point(k)  };
+	integrand[k] = sampled_signal.get_sample(k) * std::exp(exp_arg);
+    }
+    return SampledSignal(sampled_signal.get_points(), integrand); 
+}
+
+
+// Evaluate the fourier transform at a particular frequency.
+complex_double get_fourier_transform(const SampledSignal& sampled_signal,
+                                     const double frequency)
+{
+    SampledSignal integrand { get_fourier_transform_integrand(sampled_signal, frequency) };
+    return integrate(integrand);
+}
+
+
+SampledSignal get_fourier_transform(const SampledSignal& sampled_signal,
+                                    const real_vector frequencies)
+{
+    // Initialise a vector to hold the fourier transform sample values. 
+    complex_vector fourier_transform(frequencies.size(), complex_double(0,0)); 
+    
+    // Evaluate the fourier transform at each of the input frequencies.
+    for (int k {0}; k < fourier_transform.size(); k++)
+    {
+        fourier_transform[k] = get_fourier_transform(sampled_signal, frequencies[k]);
+    }
+    return SampledSignal(frequencies, fourier_transform);    
 }
 
 

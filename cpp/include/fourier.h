@@ -86,7 +86,7 @@ SampledSignal get_fourier_series(const SampledSignal& sampled_signal,
 //    - i is the imaginary unit 
 // 
 // This is only a good approximation if f(t) decays sufficiently for large |t|
-SampledSignal get_fourier_transform(const SampledSignal& sampled_signal
-                                    const complex_vector frequencies);
+SampledSignal get_fourier_transform(const SampledSignal& sampled_signal,
+                                    const real_vector frequencies);
 
 #endif
