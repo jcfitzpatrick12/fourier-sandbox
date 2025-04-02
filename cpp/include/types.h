@@ -3,10 +3,6 @@
 
 #include <vector>
 #include <complex>
-#include <filesystem>
-
-
-namespace fs = std::filesystem;
 
 typedef std::vector<double> real_vector;
 typedef std::complex<double> complex_double;
